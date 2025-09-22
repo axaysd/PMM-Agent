@@ -25,7 +25,9 @@ class PositioningWorkflow:
         self.model = ChatOpenAI(
             model=Config.OPENAI_MODEL,
             api_key=Config.OPENAI_API_KEY,
-            temperature=1.0  # GPT-5-mini only supports default temperature of 1
+            temperature=1.0,  # GPT-5-mini only supports default temperature of 1
+            request_timeout=60,  # 60 second timeout for API requests
+            max_retries=2  # Retry failed requests up to 2 times
         )
         
         # Initialize checkpointer for state persistence
