@@ -151,8 +151,15 @@ async def submit_response(request: Request):
     if not all([session_id, step, question_id, response]):
         raise HTTPException(status_code=400, detail="Missing required fields")
     
+    # If session doesn't exist, recreate it
     if session_id not in workflow_states:
-        raise HTTPException(status_code=404, detail="Session not found")
+        logger.warning(f"Session {session_id} not found, recreating...")
+        workflow_states[session_id] = WorkflowState(
+            session_id=session_id,
+            current_step=1,
+            completed_steps=[],
+            responses={}
+        )
     
     state = workflow_states[session_id]
     
@@ -250,9 +257,15 @@ async def chat_with_workflow(request: Request):
     if not session_id or not message:
         raise HTTPException(status_code=400, detail="session_id and message are required")
     
-    # Get workflow state
+    # If session doesn't exist, recreate it
     if session_id not in workflow_states:
-        raise HTTPException(status_code=404, detail="Session not found")
+        logger.warning(f"Session {session_id} not found, recreating...")
+        workflow_states[session_id] = WorkflowState(
+            session_id=session_id,
+            current_step=1,
+            completed_steps=[],
+            responses={}
+        )
     
     state = workflow_states[session_id]
     
