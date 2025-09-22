@@ -24,7 +24,8 @@ class PositioningWorkflow:
         # Initialize OpenAI model (GPT-5-mini)
         self.model = ChatOpenAI(
             model=Config.OPENAI_MODEL,
-            api_key=Config.OPENAI_API_KEY
+            api_key=Config.OPENAI_API_KEY,
+            temperature=1.0  # GPT-5-mini only supports default temperature of 1
         )
         
         # Initialize checkpointer for state persistence
