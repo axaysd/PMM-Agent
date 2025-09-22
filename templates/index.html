@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMM Assistant - Positioning & Messaging Workflow</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left Sidebar - Progress -->
+            <div class="col-md-3 sidebar">
+                <div class="sidebar-header">
+                    <h3>PMM Workflow</h3>
+                    <p class="text-muted">Positioning & Messaging Assistant</p>
+                </div>
+                
+                <div class="progress-section">
+                    <h5>Progress</h5>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: 0%" id="overall-progress"></div>
+                    </div>
+                    <p class="text-muted small">Step <span id="current-step-number">1</span> of 11</p>
+                </div>
+                
+                <div class="workflow-steps">
+                    <h5>Workflow Steps</h5>
+                    <div class="steps-list">
+                        {% for step_name in workflow_steps %}
+                        <div class="step-item" data-step="{{ loop.index }}">
+                            <div class="step-number">{{ loop.index }}</div>
+                            <div class="step-content">
+                                <div class="step-title">{{ step_name }}</div>
+                                <div class="step-status">
+                                    <span class="status-icon">⏳</span>
+                                    <span class="status-text">Pending</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content Area -->
+            <div class="col-md-9 main-content">
+                <div class="content-header">
+                    <h2 id="current-step-title">Step 1: Context Gathering & Planning</h2>
+                    <p class="text-muted" id="step-description">Let's start by gathering some basic information about your company and positioning goals.</p>
+                </div>
+                
+                <!-- Question Form -->
+                <div class="question-section" id="question-section">
+                    <div class="question-card">
+                        <div class="question-header">
+                            <h4 id="current-question-title">Question 1 of 5</h4>
+                            <div class="question-progress">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 20%" id="question-progress"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="question-body">
+                            <form id="question-form">
+                                <div class="mb-3">
+                                    <label for="response-input" class="form-label" id="question-text">What is your company name?</label>
+                                    
+                                    <!-- Text Input -->
+                                    <input type="text" class="form-control" id="response-input" placeholder="Enter your company name">
+                                    
+                                    <!-- Textarea Input -->
+                                    <textarea class="form-control d-none" id="response-textarea" rows="4" placeholder="Enter your response"></textarea>
+                                    
+                                    <!-- Select Input -->
+                                    <select class="form-select d-none" id="response-select">
+                                        <option value="">Select an option</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary" id="submit-btn">Submit Answer</button>
+                                    <button type="button" class="btn btn-outline-secondary ms-2" id="skip-btn">Skip</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chat Interface -->
+                <div class="chat-section d-none" id="chat-section">
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chat-messages">
+                            <!-- Chat messages will be added here -->
+                        </div>
+                        
+                        <div class="chat-input">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="chat-input" placeholder="Type your message...">
+                                <button class="btn btn-primary" type="button" id="send-chat-btn">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Completion Message -->
+                <div class="completion-section d-none" id="completion-section">
+                    <div class="alert alert-success">
+                        <h4>🎉 Congratulations!</h4>
+                        <p>You have completed Step 1: Context Gathering & Planning.</p>
+                        <p>Your responses have been saved and you're ready to move to the next step.</p>
+                        <button class="btn btn-success" id="next-step-btn">Continue to Step 2</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading Modal -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3">Processing your response...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
